@@ -1,0 +1,28 @@
+<div class="main-container">
+    <div class="toolbar">
+        <h1>Products</h1>
+        <button class="cartButton">
+            Shop
+        </button>
+        <button>Add</button>
+    </div>
+    <div>
+        <table class="center">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products">
+                    <td>{{product.category}}</td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
