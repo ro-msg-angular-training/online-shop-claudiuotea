@@ -1,25 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../product-list/product-list.component';
+import { IProduct } from '../product-list/product-list.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ICartProduct, DataService } from '../data.service';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss']
+  styleUrls: ['./product-details.component.scss'],
+  providers: []
 })
 export class ProductDetailsComponent implements OnInit {
-  product: Product = {
-    id : "1",
-    name : "First prod",
-    category : "First category",
-    price : 3.4,
-    description : "I am the first product in that list",
-    imageUrl : "https://www.extremetech.com/wp-content/uploads/2019/12/SONATA-hero-option1-764A5360-edit-640x354.jpg",
-  };
+  product: IProduct = {};
 
-  constructor() {
-   }
+  productId: number = -1;
+  prodQuantity: number = 1;
 
-  ngOnInit(): void {}
-  
+  constructor(private route: ActivatedRoute, private dataService: DataService, private router: Router) { }
 
+  addToShoppingCart() {
+    let cartProduct: ICartProduct = {
+      productId: this.productId,
+      quantity: this.prodQuantity,
+      category: this.product.category!,
+      name: this.product.name!,
+      price: this.product.price!,
+
+    }
+    this.dataService.addProductToShoppingCart(cartProduct);
+  }
+
+  deleteProduct() {
+    try{
+      this.dataService.deleteProduct(this.productId)
+      .subscribe(data=>console.log("Removed product with id " + this.productId));
+      this.router.navigateByUrl("/products");
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
+  ngOnInit(): void {
+    let id: number = Number(this.route.snapshot.paramMap.get('id'));
+    this.productId = id;
+    try {
+      this.dataService.getProduct(this.productId)
+        .subscribe(data => {
+          this.product = data;
+          this.product.imageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/Lamborghini/Urus/4418/Lamborghini-Urus-V8/1621927166506/front-left-side-47.jpg";
+        });
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 }

@@ -4,6 +4,7 @@
     padding: 0;
     width: 100%;
     height: auto;
+    min-height: 100vh;
 
 }
 
@@ -52,4 +53,16 @@ button:hover{
     background-color: white;
     color:black;
     border:2px solid black;
+}
+
+
+#x-button{
+    margin:auto;
+    text-transform: uppercase;
+    color: red;
+    display:inline-block;
+    border:none;
+    height: inherit;
+    width: inherit;
+    background-color: transparent;
 }

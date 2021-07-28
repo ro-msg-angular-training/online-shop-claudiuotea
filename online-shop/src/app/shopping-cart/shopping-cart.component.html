@@ -1,8 +1,8 @@
 <div class="main-container">
     <div class="toolbar">
-        <h1>Products</h1>
-        <button class="cartButton" (click)="goToShoppingCart()">
-            Cart
+        <h1>Shopping Cart</h1>
+        <button (click) = "sendOrder()">
+            Checkout
         </button>
     </div>
     <div>
@@ -12,6 +12,7 @@
                     <th>Category</th>
                     <th>Product Name</th>
                     <th>Price</th>
+                    <th>Quantity</th>
                     <th></th>
                 </tr>
             </thead>
@@ -20,7 +21,8 @@
                     <td>{{product.category}}</td>
                     <td>{{product.name}}</td>
                     <td>{{product.price}}</td>
-                    <td><a routerLink="/products/{{product.id}}">></a></td>
+                    <td>{{product.quantity}}</td>
+                    <td><button id="x-button" (click)="removeItemFromCart(product.productId)">X</button></td>
                 </tr>
             </tbody>
         </table>
