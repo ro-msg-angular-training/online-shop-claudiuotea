@@ -20,11 +20,15 @@ export interface IProduct {
 })
 export class ProductListComponent implements OnInit {
   products: IProduct[] = [];
+  isAdmin : boolean = false;
+  isCustomer : boolean = false;
 
   constructor(private dataService: DataService,private router: Router) {
   }
 
   ngOnInit(): void {
+    this.isAdmin = this.dataService.getIsAdmin();
+    this.isCustomer = this.dataService.getIsCustomer();
     try {
       this.dataService.getProducts()
         .subscribe(data => this.products = data);

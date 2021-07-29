@@ -5,8 +5,8 @@
         </h1>
     </div>
     <div class="product-buttons">
-        <button (click) = "goToEditView()">Edit</button>
-        <button (click) = "deleteProduct()">Delete</button>
+        <button [disabled]="!isAdmin" (click) = "goToEditView()">Edit</button>
+        <button [disabled]="!isAdmin" (click) = "deleteProduct()">Delete</button>
     </div>
     <div class="product-details">
         <h4>
@@ -22,7 +22,7 @@
             Description: {{product.description}}
         </h4>
         <input min="1" type="number" placeholder="Enter the quantity" [(ngModel)] = "prodQuantity">
-        <button (click)="addToShoppingCart()">Add</button>
+        <button [disabled]="!isCustomer" (click)="addToShoppingCart()">Add</button>
     </div>
     <div class="product-image">
         <img [src]="product.imageUrl" alt="Image with prod">

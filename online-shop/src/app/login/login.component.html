@@ -1,0 +1,16 @@
+<div class="main-container">
+    <div class="toolbar">
+        <h1 style="text-align: center;">Please login</h1>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="formItem">
+            <label for="username">Username:</label>
+            <input id="username" type="text" formControlName="username">
+        </div>
+        <div class="formItem">
+            <label for="password">Password:</label>
+            <input id="password" type="password" formControlName="password">
+        </div>
+        <button type="submit">Login</button>
+    </form>
+</div>

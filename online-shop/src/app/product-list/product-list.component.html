@@ -1,10 +1,10 @@
 <div class="main-container">
     <div class="toolbar">
         <h1>Products</h1>
-        <button (click)="goToShoppingCart()">
+        <button [disabled]="!isCustomer" (click)="goToShoppingCart()">
             Cart
         </button>
-        <button (click)="goToAddView()">Add</button>
+        <button [disabled]="!isAdmin" (click)="goToAddView()">Add</button>
     </div>
     <div>
         <table class="center">

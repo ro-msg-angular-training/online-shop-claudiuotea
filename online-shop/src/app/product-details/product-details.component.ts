@@ -11,7 +11,8 @@ import { ICartProduct, DataService } from '../data.service';
 })
 export class ProductDetailsComponent implements OnInit {
   product: IProduct = {};
-
+  isAdmin: boolean = false;
+  isCustomer: boolean = false;
   productId: number = -1;
   prodQuantity: number = 1;
 
@@ -45,6 +46,8 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isAdmin = this.dataService.getIsAdmin();
+    this.isCustomer = this.dataService.getIsCustomer();
     let id: number = Number(this.route.snapshot.paramMap.get('id'));
     this.productId = id;
     try {
