@@ -63,6 +63,20 @@ export class DataService {
     )
   }
 
+  addProduct(prod: IProduct){
+    return this.http.post(`${this.BASE_URL}/products`,prod)
+    .pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  updateProduct(prod: IProduct,id : number){
+    return this.http.put(`${this.BASE_URL}/products/${id}`, prod)
+    .pipe(
+      catchError(this.handleError)
+    )
+  }
+
   getShoppingCart(): ICartProduct[] {
     return this.shoppingCart;
   }

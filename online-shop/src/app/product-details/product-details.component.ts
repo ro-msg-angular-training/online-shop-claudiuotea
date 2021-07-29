@@ -40,6 +40,10 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
+  goToEditView(){
+    this.router.navigateByUrl(`/edit/${this.productId}`);
+  }
+
   ngOnInit(): void {
     let id: number = Number(this.route.snapshot.paramMap.get('id'));
     this.productId = id;

@@ -34,6 +34,10 @@ export class ProductListComponent implements OnInit {
     }
   }
 
+  goToAddView(){
+    this.router.navigateByUrl("/addproduct");
+  }
+
   goToShoppingCart(){
     this.router.navigateByUrl("/cart");
   }

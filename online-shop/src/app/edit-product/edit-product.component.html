@@ -1,0 +1,31 @@
+<div class="main-container">
+    <div class="toolbar">
+        <h1>Edit product</h1>
+    </div>
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+        <div class="formItem">
+            <label for="name">Name:</label>
+            <input id="name" type="text" formControlName="name">
+        </div>
+        <div class="formItem">
+            <label for="category">Category:</label>
+            <input id="category" type="text" formControlName="category">
+        </div>
+        <div class="formItem">
+            <label for="image">Image url:</label>
+            <input id="image" type="text" formControlName="image">
+        </div>
+        <div class = "formItem">
+            <label for="price">Price:</label>
+            <input id="price" type="number" formControlName="price" step=".01">
+        </div>
+        <div class="formItem">
+            <label for="description">Description:</label>
+            <textarea id="description" formControlName="description"></textarea>
+        </div>
+        <div>
+            <button (click)="clearForm()">Cancel</button>
+            <button [disabled]="!editForm.valid" type="submit">Save</button>
+        </div>
+    </form>
+</div>
