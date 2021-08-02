@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DataService, IUser } from '../data.service';
+import { Store } from '@ngrx/store';
+import { DataService} from '../data.service';
+import { IUser } from '../interfaces';
+import { Login } from '../store/actions/user.actions';
+import { IAppState } from '../store/state/app.state';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +17,7 @@ export class LoginComponent implements OnInit {
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   })
-  constructor(private dataService: DataService, private router:Router) { }
+  constructor(private dataService: DataService, private router:Router, private store : Store<IAppState>) { }
 
   onSubmit(): void {
     let user: IUser = {
@@ -21,13 +25,10 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.value['password']
 
     }
-    this.dataService.login(user)
-      .subscribe(data => {
-        this.dataService.setCurrentUser(data);
-        this.router.navigateByUrl("/products");
-      }, err =>{
-        alert(err);
-      })
+
+    this.store.dispatch(new Login(user));
+    this.router.navigateByUrl("/products");
+    
   }
 
   ngOnInit(): void {

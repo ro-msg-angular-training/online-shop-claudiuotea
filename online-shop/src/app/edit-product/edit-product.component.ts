@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { ProductDetailsComponent } from '../product-details/product-details.component';
-import { IProduct } from '../product-list/product-list.component';
+import { IProduct } from '../interfaces';
 
 @Component({
   selector: 'app-edit-product',

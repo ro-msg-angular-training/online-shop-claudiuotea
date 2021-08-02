@@ -1,30 +1,30 @@
 <div class="main-container grid-container">
     <div class="product-name">
         <h1>
-            Product: {{productId}}
+            Product: {{(productId$ | async)}}
         </h1>
     </div>
     <div class="product-buttons">
-        <button [disabled]="!isAdmin" (click) = "goToEditView()">Edit</button>
-        <button [disabled]="!isAdmin" (click) = "deleteProduct()">Delete</button>
+        <button [disabled]="!(isAdmin$ | async)" (click) = "goToEditView()">Edit</button>
+        <button [disabled]="!(isAdmin$ | async)" (click) = "deleteProduct()">Delete</button>
     </div>
     <div class="product-details">
         <h4>
-            Name: {{product.name}}
+            Name: {{(product$ | async)?.name}}
         </h4>
         <h4>
-            Category: {{product.category}}
+            Category: {{(product$ | async)?.category}}
         </h4>
         <h4>
-            Price: {{product.price}}
+            Price: {{(product$ | async)?.price}}
         </h4>
         <h4>
-            Description: {{product.description}}
+            Description: {{(product$ | async)?.description}}
         </h4>
-        <input min="1" type="number" placeholder="Enter the quantity" [(ngModel)] = "prodQuantity">
-        <button [disabled]="!isCustomer" (click)="addToShoppingCart()">Add</button>
+        <input min="1" type="number" placeholder="Enter the quantity" [(ngModel)] = "prodQuantity$">
+        <button [disabled]="!(isCustomer$ | async)" (click)="addToShoppingCart()">Add</button>
     </div>
     <div class="product-image">
-        <img [src]="product.imageUrl" alt="Image with prod">
+        <img [src]="(product$ | async)?.imageUrl" alt="Image with prod">
     </div>
 </div>

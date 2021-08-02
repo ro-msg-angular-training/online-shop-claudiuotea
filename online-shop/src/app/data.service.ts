@@ -1,28 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { IProduct } from './product-list/product-list.component';
+import { ICartProduct, IOrder, IProduct, IUser } from './interfaces';
 import { catchError } from 'rxjs/operators';
 
-export interface ICartProduct {
-  productId: number,
-  category: string,
-  name: string,
-  price: number,
-  quantity: number,
-}
-
-interface IOrder {
-  customer: string,
-  products: ICartProduct[],
-}
-
-export interface IUser {
-  username: string,
-  password: string | null,
-  fullName?: string,
-  roles?: string[]
-}
 
 
 @Injectable({
@@ -31,10 +12,6 @@ export interface IUser {
 export class DataService {
   private shoppingCart: ICartProduct[] = [];
   private BASE_URL = "http://localhost:3000";
-  private currentUser: IUser = { username: "", password: null };
-  private isCustomer: boolean = false;
-  private isAdmin: boolean = false;
-
 
   constructor(private http: HttpClient) { }
 
@@ -117,26 +94,6 @@ export class DataService {
       .pipe(
         catchError(this.handleError)
       )
-  }
-
-  getIsCustomer(): boolean {
-    return this.isCustomer;
-  }
-
-  getIsAdmin(): boolean {
-    return this.isAdmin;
-  }
-
-  getCurrentUser(): IUser {
-    return this.currentUser
-  }
-
-  setCurrentUser(user: IUser): void {
-    this.currentUser = user;
-    if (user.roles!.includes("admin"))
-      this.isAdmin = true;
-    if (user.roles!.includes("customer"))
-      this.isCustomer = true;
   }
 
 }

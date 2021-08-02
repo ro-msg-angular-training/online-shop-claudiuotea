@@ -1,10 +1,10 @@
 <div class="main-container">
     <div class="toolbar">
         <h1>Products</h1>
-        <button [disabled]="!isCustomer" (click)="goToShoppingCart()">
+        <button [disabled]="!(isCustomer$ | async)" (click)="goToShoppingCart()">
             Cart
         </button>
-        <button [disabled]="!isAdmin" (click)="goToAddView()">Add</button>
+        <button [disabled]="!(isAdmin$ | async)" (click)="goToAddView()">Add</button>
     </div>
     <div>
         <table class="center">
@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let product of products">
+                <tr *ngFor="let product of (products$ | async)">
                     <td>{{product.category}}</td>
                     <td>{{product.name}}</td>
                     <td>{{product.price}}</td>

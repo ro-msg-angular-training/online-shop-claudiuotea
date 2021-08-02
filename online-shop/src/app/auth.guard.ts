@@ -1,18 +1,33 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { DataService } from './data.service';
+import { IUser } from './interfaces';
+import { selectCurrentUser} from './store/selectors/user.selectors';
+import { IAppState } from './store/state/app.state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private dataService : DataService, private router:Router){}
+  // add current user here
+  user$: Observable<IUser> = this.store.pipe(select(selectCurrentUser));
+  
+  constructor(private dataService : DataService, private router:Router, private store: Store<IAppState>){}
   
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-      if(this.dataService.getCurrentUser().username != '' && this.dataService.getCurrentUser().fullName != null && this.dataService.getCurrentUser().roles != null)
+      let username = '';
+      let fullName = null;
+      let roles = null;
+      this.user$.subscribe(user => {
+        username = user.username;
+        fullName = user.fullName!;
+        roles = user.roles!;
+      });
+      if(username != '' && fullName != null && roles != null)
         return true;
     this.router.navigate(["/login"]);
     return false;
