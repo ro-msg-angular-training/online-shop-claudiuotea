@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { ICartProduct, IOrder, IProduct, IUser } from './interfaces';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -11,11 +12,11 @@ import { catchError } from 'rxjs/operators';
 })
 export class DataService {
   private shoppingCart: ICartProduct[] = [];
-  private BASE_URL = "http://localhost:3000";
+  private BASE_URL = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse) : Observable<never>{
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error);
@@ -29,36 +30,36 @@ export class DataService {
     }
   }
 
-  addProductToShoppingCart(prod: ICartProduct): void {
+  addProductToShoppingCart(prod: ICartProduct): ICartProduct[] {
     this.shoppingCart.push(prod);
+    return this.shoppingCart;
   }
 
   removeItemFromCart(id: number): void {
     this.shoppingCart = this.shoppingCart.filter(prod => prod.productId != id);
   }
 
-  sendOrder(): Observable<any> {
+  sendOrder(): Observable<Object> {
     let order: IOrder = {
       customer: "doej",
       products: this.shoppingCart
     }
 
-    //why does here throw an error when an entity was created?
     return this.http.post(`${this.BASE_URL}/orders`, order)
       .pipe(
         catchError(this.handleError)
       )
   }
 
-  addProduct(prod: IProduct) {
+  addProduct(prod: IProduct) : Observable<IProduct> {
     return this.http.post(`${this.BASE_URL}/products`, prod)
       .pipe(
         catchError(this.handleError)
       )
   }
 
-  updateProduct(prod: IProduct, id: number) {
-    return this.http.put(`${this.BASE_URL}/products/${id}`, prod)
+  updateProduct(prod: IProduct) : Observable<IProduct> {
+    return this.http.put(`${this.BASE_URL}/products/${prod.id}`, prod)
       .pipe(
         catchError(this.handleError)
       )
@@ -89,7 +90,7 @@ export class DataService {
       )
   }
 
-  deleteProduct(id: number) {
+  deleteProduct(id: number): Observable<IProduct> {
     return this.http.delete(`${this.BASE_URL}/products/${id}`)
       .pipe(
         catchError(this.handleError)

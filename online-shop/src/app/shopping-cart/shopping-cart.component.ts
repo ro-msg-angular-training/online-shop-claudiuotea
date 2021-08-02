@@ -17,13 +17,12 @@ export class ShoppingCartComponent implements OnInit {
   }
 
 
-  removeItemFromCart(id: number) {
+  removeItemFromCart(id: number) : void {
     this.dataService.removeItemFromCart(id);
     this.products = this.products.filter(prod => prod.productId != id);
-    console.log("Yes")
   }
 
-  sendOrder() {
+  sendOrder() : void {
     try {
       this.dataService.sendOrder()
         .subscribe(data => console.log("Order sent!"));

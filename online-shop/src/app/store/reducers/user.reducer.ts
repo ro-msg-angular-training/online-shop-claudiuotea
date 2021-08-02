@@ -24,7 +24,7 @@ export const userReducers = (
         case EUserActions.GetUserFail: return {
             ...state,
             loaded: false,
-            loading: true,
+            loading: false,
             error: action.payload
         }
 

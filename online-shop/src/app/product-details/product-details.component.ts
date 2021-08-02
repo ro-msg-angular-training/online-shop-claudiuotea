@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ICartProduct, IProduct } from '../interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
-import {  DataService } from '../data.service';
+import { DataService } from '../data.service';
 import { select, Store } from '@ngrx/store';
 import { IAppState } from '../store/state/app.state';
 import { selectIsAdmin, selectIsCustomer } from '../store/selectors/user.selectors';
 import { Observable } from 'rxjs';
 import { selectCurrentId, selectCurrentProduct, selectQuantity } from '../store/selectors/products.selector';
 import { GetProduct } from '../store/actions/products.actions';
+import { FormControl, FormGroup } from '@angular/forms';
+import { SetProductQuantity } from '../store/actions/products.actions';
+import { DeleteProduct } from '../store/actions/products.actions';
+import { AddCartProduct } from '../store/actions/shopping-cart.actions';
 
 @Component({
   selector: 'app-product-details',
@@ -22,49 +26,50 @@ export class ProductDetailsComponent implements OnInit {
   productId$: Observable<number> = this.store.pipe(select(selectCurrentId));
   prodQuantity$: Observable<number> = this.store.pipe(select(selectQuantity));
 
-  constructor(private store: Store<IAppState>, private route: ActivatedRoute, private dataService: DataService, private router: Router) { }
+  form = new FormGroup(
+    { quantity: new FormControl(1) }
+  )
 
-  addToShoppingCart() {
-    
-    // let cartProduct: ICartProduct = {
-    //   productId: this.productId,
-    //   quantity: this.prodQuantity,
-    //   category: this.product.category!,
-    //   name: this.product.name!,
-    //   price: this.product.price!,
+  constructor(private store: Store<IAppState>, private route: ActivatedRoute, private router: Router) { }
 
-    // }
-    // this.dataService.addProductToShoppingCart(cartProduct);
+  addToShoppingCart(): void {
+
+    let prodId: number;
+    this.productId$.subscribe((id: number) => prodId = id);
+    let quant: number;
+    this.prodQuantity$.subscribe((quantity: number) => quant = quantity)
+    this.product$.subscribe(prod => {
+      let cartProduct: ICartProduct = {
+        productId: prodId!,
+        quantity: quant!,
+        category: prod.category!,
+        name: prod.name!,
+        price: prod.price!
+      };
+      this.store.dispatch(new AddCartProduct(cartProduct));
+    })
   }
 
-  deleteProduct() {
-    // try{
-    //   this.dataService.deleteProduct(this.productId)
-    //   .subscribe(data=>console.log("Removed product with id " + this.productId));
-    //   this.router.navigateByUrl("/products");
-    // }
-    // catch(error){
-    //   console.log(error);
-    // }
+  deleteProduct(): void {
+    this.productId$.subscribe((id: number) => {
+      this.store.dispatch(new DeleteProduct(id));
+      this.router.navigateByUrl("/products");
+    }
+    )
   }
 
-  goToEditView(){
-    // this.router.navigateByUrl(`/edit/${this.productId}`);
+  goToEditView(): void {
+    this.productId$.subscribe(value => {
+      this.router.navigateByUrl(`/edit/${value}`);
+    })
   }
 
   ngOnInit(): void {
-    // let id: number = Number(this.route.snapshot.paramMap.get('id'));
-    // this.productId = id;
-    // try {
-    //   this.dataService.getProduct(this.productId)
-    //     .subscribe(data => {
-    //       this.product = data;
-    //       this.product.imageUrl = "https://stimg.cardekho.com/images/carexteriorimages/630x420/Lamborghini/Urus/4418/Lamborghini-Urus-V8/1621927166506/front-left-side-47.jpg";
-    //     });
-    // }
-    // catch (error) {
-    //   console.log(error);
-    // }
+    this.prodQuantity$.subscribe((quantity) => {
+      this.form.patchValue({ quantity }, { emitEvent: false })
+    })
+
+    this.form.valueChanges.subscribe(data => this.store.dispatch(new SetProductQuantity(data.quantity)));
     this.store.dispatch(new GetProduct(Number(this.route.snapshot.paramMap.get('id'))));
   }
 }

@@ -8,7 +8,7 @@ export interface IProductsState {
     loading: boolean;
     loaded: boolean;
     error: string;
-}
+};
 
 export const initialProductsState: IProductsState = {
     currentProduct: {},
@@ -18,4 +18,4 @@ export const initialProductsState: IProductsState = {
     loaded:false,
     loading:false,
     error:''
-}
+};

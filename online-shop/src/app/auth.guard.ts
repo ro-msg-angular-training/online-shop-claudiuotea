@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { DataService } from './data.service';
 import { IUser } from './interfaces';
 import { selectCurrentUser} from './store/selectors/user.selectors';
 import { IAppState } from './store/state/app.state';
@@ -14,7 +13,7 @@ export class AuthGuard implements CanActivate {
   // add current user here
   user$: Observable<IUser> = this.store.pipe(select(selectCurrentUser));
   
-  constructor(private dataService : DataService, private router:Router, private store: Store<IAppState>){}
+  constructor(private router:Router, private store: Store<IAppState>){}
   
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -27,7 +26,7 @@ export class AuthGuard implements CanActivate {
         fullName = user.fullName!;
         roles = user.roles!;
       });
-      if(username != '' && fullName != null && roles != null)
+      if(username && fullName && roles)
         return true;
     this.router.navigate(["/login"]);
     return false;

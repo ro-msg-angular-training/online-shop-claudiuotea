@@ -7,7 +7,7 @@ export interface IUserState {
     loading: boolean;
     loaded: boolean;
     error: string;
-}
+};
 
 export const initialUserState: IUserState = {
     currentUser: {username:'', password:''},
@@ -16,4 +16,4 @@ export const initialUserState: IUserState = {
     loading: false,
     loaded: false,
     error: ""
-}
+};

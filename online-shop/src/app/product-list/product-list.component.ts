@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { DataService } from '../data.service';
 import  {IProduct}  from '../interfaces';
 import { IAppState } from '../store/state/app.state';
 import { selectIsAdmin, selectIsCustomer } from '../store/selectors/user.selectors';
@@ -19,18 +18,18 @@ export class ProductListComponent implements OnInit {
   isAdmin$: Observable<boolean> = this.store.pipe(select(selectIsAdmin));
   isCustomer$: Observable<boolean> = this.store.pipe(select(selectIsCustomer));
 
-  constructor(private dataService: DataService,private router: Router, private store: Store<IAppState>) {
+  constructor(private router: Router, private store: Store<IAppState>) {
   }
 
   ngOnInit(): void {
     this.store.dispatch(new GetProducts());
   }
 
-  goToAddView(){
+  goToAddView() : void {
     this.router.navigateByUrl("/addproduct");
   }
 
-  goToShoppingCart(){
+  goToShoppingCart() : void {
     this.router.navigateByUrl("/cart");
   }
 
