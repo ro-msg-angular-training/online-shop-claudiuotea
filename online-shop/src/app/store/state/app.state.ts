@@ -6,8 +6,7 @@ import { initialUserState, IUserState } from "./user.state";
 export interface IAppState {
     router?: RouterReducerState;
     user: IUserState;
-    //TODO: REMOVE THE "?" JUST FOR TESTING
-    cart?: ICartState;
+    cart: ICartState;
     products: IProductsState;
 };
 

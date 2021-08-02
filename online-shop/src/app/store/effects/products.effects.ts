@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { of, pipe } from "rxjs";
+import { of } from "rxjs";
 import { switchMap, catchError, mergeMap, map } from "rxjs/operators";
 import { DataService } from "src/app/data.service";
 import { IProduct } from "src/app/interfaces";

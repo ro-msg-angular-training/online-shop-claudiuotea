@@ -25,10 +25,10 @@ export class ShoppingCartComponent implements OnInit {
   sendOrder() : void {
     try {
       this.dataService.sendOrder()
-        .subscribe(data => console.log("Order sent!"));
+        .subscribe(() => {});
     }
     catch (error) {
-      console.log(error);
+        
     }
   }
 }

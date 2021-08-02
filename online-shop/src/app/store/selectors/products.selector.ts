@@ -26,3 +26,17 @@ export const selectQuantity = createSelector(
     (state: IProductsState) => state.prodQuantity
 );
 
+export const selectLoaded = createSelector(
+    selectProducts,
+    (state: IProductsState) => state.loaded
+);
+
+export const selectLoading = createSelector(
+    selectProducts,
+    (state: IProductsState) => state.loading
+);
+
+export const selectError = createSelector(
+    selectProducts,
+    (state: IProductsState) => state.error
+);

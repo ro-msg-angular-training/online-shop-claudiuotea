@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ICartProduct, IProduct } from '../interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService } from '../data.service';
 import { select, Store } from '@ngrx/store';
 import { IAppState } from '../store/state/app.state';
 import { selectIsAdmin, selectIsCustomer } from '../store/selectors/user.selectors';

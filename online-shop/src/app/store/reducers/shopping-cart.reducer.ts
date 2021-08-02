@@ -13,7 +13,7 @@ export const cartReducers = (
         }
 
         case ECartActions.AddCartProductSuccess: return {
-            ...state,
+            ...state
         }
 
         case ECartActions.AddCartProductFail: return {

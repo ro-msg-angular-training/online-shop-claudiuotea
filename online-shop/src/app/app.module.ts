@@ -18,6 +18,8 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { ProductsEffect } from './store/effects/products.effects';
+import { CartEffect } from './store/effects/shopping-cart.effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,7 @@ import { ProductsEffect } from './store/effects/products.effects';
   ],
   imports: [
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([UserEffect, ProductsEffect]),
+    EffectsModule.forRoot([UserEffect, ProductsEffect, CartEffect]),
     StoreRouterConnectingModule.forRoot({stateKey:'root'}),
     HttpClientModule,
     BrowserModule,
@@ -39,6 +41,7 @@ import { ProductsEffect } from './store/effects/products.effects';
     FormsModule,
     ReactiveFormsModule,
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
