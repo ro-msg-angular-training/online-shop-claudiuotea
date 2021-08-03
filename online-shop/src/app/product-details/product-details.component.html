@@ -1,0 +1,32 @@
+<div class="main-container grid-container">
+    <div class="product-name">
+        <h1>
+            Product: {{(productId$ | async)}}
+        </h1>
+    </div>
+    <div class="product-buttons">
+        <button [disabled]="!(isAdmin$ | async)" (click)="goToEditView()">Edit</button>
+        <button [disabled]="!(isAdmin$ | async)" (click)="deleteProduct()">Delete</button>
+    </div>
+    <div class="product-details">
+        <h4>
+            Name: {{(product$ | async)?.name}}
+        </h4>
+        <h4>
+            Category: {{(product$ | async)?.category}}
+        </h4>
+        <h4>
+            Price: {{(product$ | async)?.price}}
+        </h4>
+        <h4>
+            Description: {{(product$ | async)?.description}}
+        </h4>
+        <form [formGroup]="form">
+            <input min="1" type="number" placeholder="Enter the quantity" formControlName="quantity">
+            <button [disabled]="!(isCustomer$ | async)" (click)="addToShoppingCart()">Add</button>
+        </form>
+    </div>
+    <div class="product-image">
+        <img [src]="(product$ | async)?.imageUrl" alt="Image with prod">
+    </div>
+</div>
